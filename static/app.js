@@ -1,5 +1,5 @@
 $( window ).load(function() {
-  $.getJSON('api/v1/roms/list', add_roms_to_list);
+    render_screen();
 });
 
 var options = {
@@ -8,6 +8,10 @@ var options = {
 };
 
 var userList;
+
+var render_screen = function() {
+    $.getJSON('api/v1/roms/list', add_roms_to_list);
+}
 
 var add_roms_to_list = function(roms) {
     var values = roms.map(function(x) {
@@ -31,6 +35,9 @@ var select = function(object) {
             select($(this));
         });
     });
+    $('html,body').animate({
+            scrollTop: object.offset().top - window.innerHeight/2 + object.height()},
+            75);
 }
 
 var deselect = function(object) {
@@ -52,7 +59,6 @@ var up_arrow = function() {
     if (!previous.length) {
         return;
     }
-    console.log(previous);
     select(previous);
     deselect(selected);
 }
