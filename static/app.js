@@ -24,10 +24,14 @@ var add_roms_to_list = function(roms) {
     $('.item').click(function (event) {
         select($(this));
     });
+    $('.item').dblclick(function (event) {
+        console.log("double click");
+        play_selection($(this));
+    })
 }
 
 var select = function(object) {
-    deselect($('.selected'));
+    deselect(selected_item());
     object.removeClass('item').addClass('selected');
     object.click(function() {
         deselect(object);
@@ -38,6 +42,10 @@ var select = function(object) {
     $('html,body').animate({
             scrollTop: object.offset().top - window.innerHeight/2 + object.height()},
             75);
+}
+
+var selected_item = function() {
+    return $('.selected').first();
 }
 
 var deselect = function(object) {
@@ -54,7 +62,7 @@ var play_game = function(internal_name) {
 }
 
 var up_arrow = function() {
-    var selected = $('.selected');
+    var selected = selected_item();
     var previous = selected.prev('.item');
     if (!previous.length) {
         return;
@@ -64,14 +72,17 @@ var up_arrow = function() {
 }
 
 var down_arrow = function() {
-    var selected = $('.selected');
+    var selected = selected_item();
+    if (selected.length == 0) {
+        select($('.item').first());
+        return;
+    }
     var next = selected.next('.item');
     if (!next.length) {
         return;
     }
     select(next);
     deselect(selected);
-
 }
 
 
@@ -92,7 +103,7 @@ $(document).keydown(function(e) {
         break;
 
         case 13: //enter
-        play_selection($('.selected'));
+        play_selection(selected_item());
         break;
 
 

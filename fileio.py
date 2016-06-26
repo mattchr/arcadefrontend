@@ -11,20 +11,30 @@ def get_roms():
         internal_name = os.path.splitext(filename)[0]
         try:
             roms.append({
-                'full_name': cfg.roms_list[internal_name],
+                'full_name': get_rom_fullname(internal_name),
                 'internal_name': internal_name,
             })
         except KeyError:
             pass
     return roms
 
-def launch_game(internal_name):
+
+def get_rom_fullname(internal_name):
     cfg = ArcadeConfig()
-    rom_path = os.path.join(cfg.roms_path, '{}.zip'.format(internal_name))
+    try:
+        return cfg.rom_names[internal_name]
+    except KeyError:
+        pass
+    if cfg.only_listed_roms:
+        raise KeyError
+    return cfg.roms_list[internal_name]
+
+def launch_game(internal_name):
+    prev_dir = os.getcwd()
+    cfg = ArcadeConfig()
+    os.chdir(os.path.dirname(cfg.emulator_path));
     call([cfg.emulator_path, "-rompath", cfg.roms_path, internal_name])
-    print(internal_name)
-
-
+    os.chdir(prev_dir)
 
 if __name__ == "__main__":
     print(get_roms())
