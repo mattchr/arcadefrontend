@@ -4,7 +4,7 @@ $( window ).load(function() {
 
 var options = {
   valueNames: [ 'name', 'description' ],
-  item: '<li class="item"><h3 class="name"></h3><div class="description"></div></li>',
+  item: '<li class="item"><h3 class="name"></h3><div class="description"></div><div class="marquee"></div></li>',
 };
 
 var userList;
@@ -39,9 +39,24 @@ var select = function(object) {
             select($(this));
         });
     });
+    var internal_name = object.find('.description').first();
+    object.find('.marquee').error(function () {
+        $(this).hide();
+    });
+
+    $.get('/api/v1/artwork/marquee/' + get_rom_name(object), function(data) {
+        if (!data) {
+            return;
+        }
+        object.find('.marquee').html('<img src="/api/v1/artwork/marquee/' + get_rom_name(object) + '" height=100px></img>');
+    });
     $('html,body').animate({
             scrollTop: object.offset().top - window.innerHeight/2 + object.height()},
             75);
+}
+
+var get_rom_name = function(object) {
+    return object.find('.description').first().html().replace(/ /g,'');
 }
 
 var selected_item = function() {
@@ -50,10 +65,11 @@ var selected_item = function() {
 
 var deselect = function(object) {
     object.removeClass('selected').addClass('item');
+    object.find('.marquee').html('');
 }
 
 var play_selection = function(selection) {
-    play_game(selection.find('.description').html());
+    play_game(get_rom_name(selection));
 }
 
 var play_game = function(internal_name) {

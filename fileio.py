@@ -19,6 +19,15 @@ def get_roms():
     return roms
 
 
+def get_marquee(internal_name):
+    cfg = ArcadeConfig()
+    filepath = os.path.join(cfg.roms_path, '../marquees/{}.png'.format(internal_name))
+    if not os.path.isfile(filepath):
+        print(filepath)
+        raise KeyError
+    return filepath
+
+
 def get_rom_fullname(internal_name):
     cfg = ArcadeConfig()
     try:
