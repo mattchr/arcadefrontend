@@ -15,8 +15,8 @@ def api_root():
 
 
 @app.route('/api/v1/roms/list')
-def hello_world():
-    return json.dumps(fileio.get_roms())
+def get_roms():
+    return json.dumps(sorted(fileio.get_roms(), key=lambda x: x['full_name']))
 
 
 @app.route('/api/v1/roms/play/<internal_name>')
