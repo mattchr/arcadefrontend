@@ -101,29 +101,55 @@ var down_arrow = function() {
     deselect(selected);
 }
 
+var page_down = function() {
+
+};
+
+var page_up = function() {
+
+};
 
 $(document).keydown(function(e) {
-    switch(e.which) {
-        case 37: // left
-        break;
-
-        case 38: // up
-        up_arrow();
-        break;
-
-        case 39: // right
-        break;
-
-        case 40: // down
-        down_arrow();
-        break;
-
-        case 13: //enter
-        play_selection(selected_item());
-        break;
-
-
-        default: return; // exit this handler for other keys
+    var launch_game = function() {
+            play_selection(selected_item());
+        };
+    var key_handler_lookup = {
+        37: function() {},                      // left
+        38: up_arrow,                           // up
+        39: function() {},                      // right
+        40: down_arrow,                         // down
+        13: launch_game,
+        49: launch_game,                         // P1 start
+        17: launch_game,                        // P1 button one
+        34: page_down,
+        33: page_up
+    };
+    if (!(e.which in key_handler_lookup)) {
+        return;
     }
+    key_handler_lookup[e.which]();
+
+//   e switch(e.which) {
+//        case 37: // left
+//        break;
+//
+//        case 38: // up
+//        up_arrow();
+//        break;
+//
+//        case 39: // right
+//        break;
+//
+//        case 40: // down
+//        down_arrow();
+//        break;
+//
+//        case 13: //enter
+//        play_selection(selected_item());
+//        break;
+//
+//
+//        default: return; // exit this handler for other keys
+//    }
     e.preventDefault(); // prevent the default action (scroll / move caret)
 });
