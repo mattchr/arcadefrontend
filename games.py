@@ -27,9 +27,3 @@ class GameInfo(object):
                 raise IOError
             self._marquee = response.content
         return self._marquee
-
-# try:
-#     print(GameInfo('bbhcotw').name)
-# except IOError:
-#     print("not found")
-print(GameInfo('pbobble').marquee)
