@@ -35,15 +35,9 @@ def get_marquee(internal_name):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
-# @app.route('/')
-# def hello_world():
-#     return 'Hello, World!'
-#     # return open(os.path.join(htdocsdir, 'index.html'), 'rb').read()
-#
 @app.route('/api/v1/roms/list')
 def hello_world():
     return json.dumps(fileio.FileIO().get_roms())
-#
-# app.run()
+
