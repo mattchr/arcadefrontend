@@ -1,5 +1,8 @@
+#!/bin/bash
 {
-google-chrome --kiosk "http://127.0.0.1:5000/"
+google-chrome --kiosk "http://127.0.0.1:8000/"
 }&
 cd ~/git/arcadefrontend
-python3 api.py
+. arcadefrontendenv/bin/activate
+uwsgi --socket 0.0.0.0:8000 --protocol=http --ini=arcadefrontend.ini
+
