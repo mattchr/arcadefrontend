@@ -37,17 +37,17 @@ def get_rom_fullname(internal_name):
         return cfg.rom_names[internal_name]
     except KeyError:
         print("Adding {}".format(internal_name))
-        game_info = GameInfo(internal_name)
-        try:
-            cfg.add_rom(game_info)
-        except IOError:
-            print("blacklisting {}".format(internal_name))
-            cfg.blacklist_rom(game_info.internal_name)
-            print("{} not found".format(internal_name))
-            raise KeyError
-        return game_info.name
-    # if cfg.only_listed_roms:
-    #     raise KeyError
+        # game_info = GameInfo(internal_name)
+        # try:
+        # cfg.add_rom(game_info)
+        # except IOError:
+        #     print("blacklisting {}".format(internal_name))
+        #     cfg.blacklist_rom(game_info.internal_name)
+        #     print("{} not found".format(internal_name))
+        #     raise KeyError
+        # return game_info.name
+    if cfg.only_listed_roms:
+        raise KeyError
     # return cfg.roms_list[internal_name]
 
 def launch_game(internal_name):
