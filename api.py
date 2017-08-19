@@ -3,8 +3,12 @@ import fileio
 import json
 import os
 from jinja2 import Template
+from flask_cors import CORS
+from subprocess import Popen
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 basedir = os.path.dirname(__file__)
 staticdir = os.path.join(basedir, 'static')
 
@@ -35,9 +39,10 @@ def get_marquee(internal_name):
 
 
 if __name__ == '__main__':
+    Popen(["docker", "run", "-p", "80:3000", "arcade-fe"])
+    print("In the background!\n")
     app.run(debug=True)
 
 @app.route('/api/v1/roms/list')
 def hello_world():
     return json.dumps(fileio.FileIO().get_roms())
-
